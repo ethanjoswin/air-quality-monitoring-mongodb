@@ -26,6 +26,9 @@ MONGO_URI = os.getenv("MONGO_URI")
 LAT = 53.3498
 LON = -6.2603
 
+PM25_THRESHOLD = 35
+AQI_THRESHOLD = 4
+
 if not API_KEY:
     raise ValueError("API_KEY not found in .env file")
 if not MONGO_URI:
@@ -126,10 +129,10 @@ def collect_live_data():
         print("Live pollution + weather data inserted successfully")
         print(document)
 
-        if document["pm2_5"] is not None and document["pm2_5"] > 35:
+        if document["pm2_5"] is not None and document["pm2_5"] > PM25_THRESHOLD:
             save_alert(document["datetime"], "actual", document["pm2_5"], "High PM2.5 level detected")
 
-        if document["aqi"] is not None and document["aqi"] >= 4:
+        if document["aqi"] is not None and document["aqi"] >= AQI_THRESHOLD:
             save_alert(document["datetime"], "actual", document["aqi"], "Poor air quality detected")
 
     except DuplicateKeyError:
