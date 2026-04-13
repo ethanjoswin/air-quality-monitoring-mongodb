@@ -1,0 +1,6 @@
+pymongo
+pandas
+requests
+dnspython
+streamlit
+python-dotenv
