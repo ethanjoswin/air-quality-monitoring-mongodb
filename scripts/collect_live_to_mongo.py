@@ -126,8 +126,8 @@ def collect_live_data():
 
     try:
         pollution_collection.insert_one(document)
-        print("Live pollution + weather data inserted successfully")
-        print(document)
+        print(f"[INFO] Data inserted at {document['datetime']}")
+        print(f"[INFO] AQI={document['aqi']} PM2.5={document['pm2_5']} Source={document['source']}")
 
         if document["pm2_5"] is not None and document["pm2_5"] > PM25_THRESHOLD:
             save_alert(document["datetime"], "actual", document["pm2_5"], "High PM2.5 level detected")
@@ -136,7 +136,7 @@ def collect_live_data():
             save_alert(document["datetime"], "actual", document["aqi"], "Poor air quality detected")
 
     except DuplicateKeyError:
-        print("This hour already exists. Skipped duplicate insert.")
+        print("[INFO] Duplicate hourly record found. Insert skipped.")
 
 
 if __name__ == "__main__":
