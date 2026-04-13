@@ -200,14 +200,14 @@ st.write(f"Peak PM2.5 in selected range: {peak_row['pm2_5']:.2f} at {peak_row['d
 st.subheader("Pollution Heatmap Table")
 heatmap_df = filtered_df.pivot_table(values="pm2_5", index="day_name", columns="hour", aggfunc="mean")
 heatmap_df = heatmap_df.reindex(["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"])
-st.dataframe(heatmap_df, use_container_width=True)
+st.dataframe(heatmap_df, width="stretch")
 
 st.subheader("Recent Alerts")
 if alert_docs:
     alert_df = pd.DataFrame(alert_docs)
     if "datetime" in alert_df.columns:
         alert_df["datetime"] = pd.to_datetime(alert_df["datetime"])
-    st.dataframe(alert_df, use_container_width=True)
+    st.dataframe(alert_df, width="stretch")
 else:
     st.info("No alerts found.")
 
@@ -221,4 +221,4 @@ st.download_button(
 )
 
 with st.expander("Show Raw Pollution Data"):
-    st.dataframe(filtered_df.tail(100), use_container_width=True)
+    st.dataframe(filtered_df.tail(100), width="stretch")
