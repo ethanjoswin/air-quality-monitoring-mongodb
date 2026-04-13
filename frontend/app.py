@@ -165,6 +165,12 @@ w2.metric("Humidity (%)", safe_value(latest["humidity"]))
 w3.metric("Pressure", safe_value(latest["pressure"]))
 w4.metric("Wind Speed", safe_value(latest["wind_speed"]))
 
+st.subheader("Summary Metrics")
+m1, m2, m3 = st.columns(3)
+m1.metric("Total Records", len(filtered_df))
+m2.metric("Average AQI", safe_value(filtered_df["aqi"].mean(), 2))
+m3.metric("Max PM2.5", safe_value(filtered_df["pm2_5"].max(), 2))
+
 st.subheader("Trend Analysis")
 trend_df = filtered_df[["datetime", pollutant]].set_index("datetime")
 st.line_chart(trend_df)
