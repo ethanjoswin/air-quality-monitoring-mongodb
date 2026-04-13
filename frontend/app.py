@@ -171,6 +171,10 @@ m1.metric("Total Records", len(filtered_df))
 m2.metric("Average AQI", safe_value(filtered_df["aqi"].mean(), 2))
 m3.metric("Max PM2.5", safe_value(filtered_df["pm2_5"].max(), 2))
 
+st.subheader("Data Source Distribution")
+source_counts = filtered_df["source"].value_counts()
+st.bar_chart(source_counts)
+
 st.subheader("Trend Analysis")
 trend_df = filtered_df[["datetime", pollutant]].set_index("datetime")
 st.line_chart(trend_df)
