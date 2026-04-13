@@ -15,13 +15,13 @@ for env_path in env_candidates:
 
 MONGO_URI = os.getenv("MONGO_URI")
 
-print("URI loaded:", "Yes" if MONGO_URI else "No")
+print("[INFO] URI loaded:", "Yes" if MONGO_URI else "No")
 
 client = MongoClient(MONGO_URI, serverSelectionTimeoutMS=10000)
 
 try:
     print(client.admin.command("ping"))
-    print("MongoDB connection successful")
+    print("[INFO] MongoDB connection successful")
 except Exception as e:
-    print("MongoDB connection failed")
+    print("[ERROR] MongoDB connection failed")
     print(e)
