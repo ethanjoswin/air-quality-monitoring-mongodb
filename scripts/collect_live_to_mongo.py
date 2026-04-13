@@ -5,6 +5,7 @@ import pandas as pd
 from pymongo import MongoClient, ASCENDING
 from pymongo.errors import DuplicateKeyError
 from dotenv import load_dotenv
+from utils import get_aqi_category, to_dublin_hour
 
 # -----------------------------
 # LOAD .env
@@ -39,15 +40,6 @@ alerts_collection = db["alerts"]
 pollution_collection.create_index([("datetime", ASCENDING)], unique=True)
 
 
-def get_aqi_category(aqi):
-    mapping = {
-        1: "Good",
-        2: "Fair",
-        3: "Moderate",
-        4: "Poor",
-        5: "Very Poor"
-    }
-    return mapping.get(aqi, "Unknown")
 
 
 def save_alert(dt_value, alert_type, value, message):
@@ -77,13 +69,7 @@ def fetch_live_pollution():
 
     item = data["list"][0]
 
-    dt_value = (
-        pd.to_datetime(item["dt"], unit="s", utc=True)
-        .tz_convert("Europe/Dublin")
-        .tz_localize(None)
-        .floor("h")
-        .to_pydatetime()
-    )
+    dt_value = to_dublin_hour(item["dt"])
 
     return {
         "datetime": dt_value,
