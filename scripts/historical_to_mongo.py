@@ -91,5 +91,10 @@ def fetch_historical_pollution(days=5):
 
 
 if __name__ == "__main__":
-    days_input = int(input("Enter how many days of historical data you want: "))
-    fetch_historical_pollution(days=days_input)
+    try:
+        days_input = int(input("Enter how many days of historical data you want: "))
+        if days_input <= 0:
+            raise ValueError("Days must be greater than zero.")
+        fetch_historical_pollution(days=days_input)
+    except ValueError as e:
+        print(f"Invalid input: {e}")
