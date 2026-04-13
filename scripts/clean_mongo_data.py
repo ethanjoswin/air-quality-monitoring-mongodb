@@ -27,6 +27,8 @@ collection = db["pollution_data"]
 
 
 def clean_incomplete_records():
+    before_count = collection.count_documents({})
+
     result = collection.delete_many({
         "$or": [
             {"no2": {"$exists": False}},
@@ -35,7 +37,11 @@ def clean_incomplete_records():
         ]
     })
 
+    after_count = collection.count_documents({})
+
     print(f"Deleted {result.deleted_count} incomplete records.")
+    print(f"Records before cleaning: {before_count}")
+    print(f"Records after cleaning: {after_count}")
 
 
 if __name__ == "__main__":
