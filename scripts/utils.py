@@ -11,7 +11,7 @@ def get_aqi_category(aqi):
     }
     return mapping.get(aqi, "Unknown")
 
-
+#This time conversion logic was implemented with help from GPT.
 def to_dublin_hour(unix_timestamp):
     return (
         pd.to_datetime(unix_timestamp, unit="s", utc=True)
